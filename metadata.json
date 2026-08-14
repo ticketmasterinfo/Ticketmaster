@@ -1,0 +1,6 @@
+{
+  "name": "Event Pass Discovery & Ticketing Experience",
+  "description": "A high-fidelity educational recreation of modern live event discovery, 3-part predictive omnibox search, category exploration, and interactive SVG venue seat map ticketing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
