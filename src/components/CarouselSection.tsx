@@ -74,7 +74,7 @@ export const CarouselSection: React.FC<CarouselSectionProps> = ({
         {events.map((event) => (
           <div
             key={event.id}
-            className="snap-carousel-item w-[280px] sm:w-[320px] bg-white rounded-lg border border-[#ebebeb] shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+            className="event-card snap-carousel-item w-[260px] sm:w-[280px] md:w-[300px] bg-white rounded-lg border border-[#ebebeb] shadow-tm-level-1 hover:shadow-tm-level-2 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
           >
             {/* 16:9 Image Wrapper with 1.05x Hover Zoom */}
             <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#121212]">
@@ -85,10 +85,10 @@ export const CarouselSection: React.FC<CarouselSectionProps> = ({
                 className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
               />
 
-              {/* Category Pill */}
+              {/* Genre / Category Tag - Top Left */}
               <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
                 <span className="type-snowdon bg-[#121212]/80 backdrop-blur-xs text-white px-2 py-0.5 rounded-sm">
-                  {event.category}
+                  {event.genre}
                 </span>
                 {event.sellingFast && (
                   <span className="type-snowdon bg-[#d91b5c] text-white px-2 py-0.5 rounded-sm flex items-center gap-1">
@@ -110,10 +110,10 @@ export const CarouselSection: React.FC<CarouselSectionProps> = ({
             <div className="p-4 flex-1 flex flex-col justify-between">
               <div>
                 <span className="type-snowdon text-[#024ddf] font-bold block mb-1">
-                  {event.genre}
+                  {event.category}
                 </span>
 
-                <h3 className="type-vinson text-[#121212] line-clamp-1 group-hover:text-[#024ddf] transition-colors">
+                <h3 className="type-blanc text-[#121212] line-clamp-2 group-hover:text-[#024ddf] transition-colors">
                   {event.title}
                 </h3>
 
@@ -136,7 +136,7 @@ export const CarouselSection: React.FC<CarouselSectionProps> = ({
                 <button
                   type="button"
                   onClick={() => onSelectEvent(event)}
-                  className="type-etna font-bold text-[#024ddf] border border-[#024ddf] hover:bg-[#024ddf] hover:text-white px-3.5 py-1.5 rounded transition-all duration-150 flex items-center gap-1.5"
+                  className="type-etna font-bold text-[#024ddf] border border-[#024ddf] hover:bg-[#024ddf] hover:text-white px-3.5 py-1.5 rounded transition-all duration-200 flex items-center gap-1.5 cursor-pointer"
                 >
                   <Ticket className="w-3.5 h-3.5" />
                   <span>See Tickets</span>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ZoomIn, ZoomOut, RotateCcw, ShieldCheck, Ticket, Info, Check, Sparkles, ChevronRight, AlertCircle } from 'lucide-react';
 import { EventItem, SeatTier, SelectedTicketBooking } from '../types';
 
@@ -18,6 +18,17 @@ export const VenueSeatMapModal: React.FC<VenueSeatMapModalProps> = ({
   const [ticketQuantity, setTicketQuantity] = useState<number>(2);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [deliveryMethod, setDeliveryMethod] = useState<'mobile' | 'instant_transfer' | 'vip_will_call'>('mobile');
+
+  // Accessibility: Esc key close listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   // Pricing calculations
   const serviceFeePerTicket = 14.50;
@@ -61,9 +72,10 @@ export const VenueSeatMapModal: React.FC<VenueSeatMapModalProps> = ({
       id="seatMapModal"
       role="dialog"
       aria-modal="true"
+      aria-labelledby="modalEventTitle"
       className="fixed inset-0 z-50 overflow-hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-0 md:p-4 animate-in fade-in duration-200"
     >
-      <div className="bg-[#121212] text-white w-full h-full md:max-w-6xl md:h-[92vh] md:rounded-xl shadow-2xl border border-[#333] flex flex-col overflow-hidden">
+      <div className="bg-[#121212] text-white w-full h-full md:max-w-[1100px] md:max-h-[900px] md:h-[90vh] md:rounded-xl shadow-tm-level-3 border border-[#333] flex flex-col overflow-hidden">
         {/* Top Modal Header */}
         <div className="bg-[#1a1a1a] border-b border-[#2d2d2d] px-4 sm:px-6 py-3.5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">

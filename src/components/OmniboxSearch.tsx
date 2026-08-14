@@ -240,7 +240,7 @@ export const OmniboxSearch: React.FC<OmniboxSearchProps> = ({
               {isSearchFocused && searchQuery.trim().length >= 1 && (
                 <div
                   id="predictive-autocomplete-dropdown"
-                  className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-2xl border border-[#bfbfbf] overflow-hidden z-50 animate-in fade-in-50 duration-150"
+                  className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-tm-level-3 border border-[#bfbfbf] overflow-hidden z-[500] animate-in fade-in-50 duration-150"
                 >
                   <div className="p-3 bg-[#f6f6f6] border-b border-[#ebebeb] flex items-center justify-between text-xs text-[#646464]">
                     <span className="font-bold uppercase tracking-wider flex items-center gap-1.5">

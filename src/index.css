@@ -2,87 +2,195 @@
 
 @layer base {
   :root {
-    --brand-blue: #024ddf;
-    --brand-blue-hover: #0139a7;
-    --brand-blue-active: #012e85;
-    --dark-surface: #121212;
-    --page-bg: #f6f6f6;
-    --card-surface: #ffffff;
-    --border-light: #ebebeb;
-    --border-default: #bfbfbf;
-    --border-dark: #949494;
-    --accent-gold: #ffb932;
-    --accent-green: #00875a;
-    --accent-pink: #d91b5c;
-    --font-primary: 'Plus Jakarta Sans', 'Averta', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    /* Primary Brand Palette */
+    --tm-blue-primary: #024ddf;
+    --tm-blue-hover:   #0139a7;
+    --tm-blue-active:  #012e85;
+
+    /* Neutrals */
+    --tm-dark-bg:       #121212;
+    --tm-dark-surface:  #1f1f1f;
+    --tm-bg-main:       #f6f6f6;
+    --tm-surface-white: #ffffff;
+
+    /* Borders & Dividers */
+    --tm-border-light:  #bfbfbf;
+    --tm-border-subtle: #ebebeb;
+    --tm-border-dark:   #949494;
+
+    /* Accent & Status */
+    --tm-accent-gold:   #ffb932;
+    --tm-accent-green:  #00875a;
+    --tm-resale-pink:   #d91b5c;
+
+    /* Elevation & Shadow Scale */
+    --shadow-level-1: 0px 1px 4px 0px rgba(18, 18, 18, 0.15);
+    --shadow-level-2: 0px 8px 20px 0px rgba(0, 0, 0, 0.35);
+    --shadow-level-3: 0px 3px 12px 0px rgba(18, 18, 18, 0.18);
+
+    /* Typeface */
+    --font-primary: 'Averta', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
 
   body {
     font-family: var(--font-primary);
-    background-color: var(--page-bg);
-    color: #121212;
+    background-color: var(--tm-bg-main);
+    color: var(--tm-dark-bg);
     overflow-x: hidden;
+  }
+
+  /* Accessibility High Contrast Focus Rings */
+  :focus-visible {
+    outline: 2px solid var(--tm-blue-primary);
+    outline-offset: 2px;
   }
 }
 
-/* Design System Typography Tokens */
+/* Screen Reader Only Utility */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 2. Typography System & Type Scale */
 .type-mauna {
-  font-size: clamp(2.75rem, 5vw, 3.375rem); /* 44px mobile / 54px desktop */
-  line-height: 1.1;
+  font-size: 44px;
+  line-height: 44px;
   font-weight: 900;
   letter-spacing: -0.03em;
 }
+@media (min-width: 900px) {
+  .type-mauna {
+    font-size: 54px;
+    line-height: 44px;
+  }
+}
 
 .type-everest {
-  font-size: clamp(2rem, 3.5vw, 2.75rem); /* 32px mobile / 44px desktop */
-  line-height: 1.15;
+  font-size: 32px;
+  line-height: 32px;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
+@media (min-width: 900px) {
+  .type-everest {
+    font-size: 44px;
+    line-height: 44px;
+  }
+}
 
 .type-kilimanjaro {
-  font-size: clamp(1.5rem, 2.5vw, 2rem); /* 24px mobile / 32px desktop */
-  line-height: 1.2;
+  font-size: 24px;
+  line-height: 26px;
   font-weight: 700;
   letter-spacing: -0.015em;
 }
+@media (min-width: 900px) {
+  .type-kilimanjaro {
+    font-size: 32px;
+    line-height: 34px;
+  }
+}
+
+.type-matterhorn {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 700;
+}
+@media (min-width: 900px) {
+  .type-matterhorn {
+    font-size: 28px;
+    line-height: 34px;
+  }
+}
 
 .type-vinson {
-  font-size: clamp(1.375rem, 2vw, 1.5rem); /* 22px mobile / 24px desktop */
-  line-height: 1.25;
+  font-size: 22px;
+  line-height: 24px;
   font-weight: 700;
+}
+@media (min-width: 900px) {
+  .type-vinson {
+    font-size: 24px;
+    line-height: 28px;
+  }
 }
 
 .type-blanc {
-  font-size: clamp(1.125rem, 1.5vw, 1.25rem); /* 18px mobile / 20px desktop */
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 22px;
   font-weight: 600;
+}
+@media (min-width: 900px) {
+  .type-blanc {
+    font-size: 20px;
+    line-height: 24px;
+  }
 }
 
 .type-fiji {
-  font-size: 1.125rem; /* 18px */
-  line-height: 1.35;
+  font-size: 18px;
+  line-height: 26px;
   font-weight: 600;
 }
 
 .type-rainier {
-  font-size: 1rem; /* 16px body default */
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 22px;
   font-weight: 400;
+}
+@media (min-width: 900px) {
+  .type-rainier {
+    line-height: 24px;
+  }
+}
+
+.type-rainier-semibold {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+}
+@media (min-width: 900px) {
+  .type-rainier-semibold {
+    line-height: 24px;
+  }
 }
 
 .type-etna {
-  font-size: 0.875rem; /* 14px secondary */
-  line-height: 1.45;
-  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+}
+@media (min-width: 900px) {
+  .type-etna {
+    line-height: 20px;
+  }
 }
 
 .type-snowdon {
-  font-size: 0.75rem; /* 12px */
-  line-height: 1.3;
+  font-size: 12px;
+  line-height: 20px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
+}
+
+/* Elevation Shadows */
+.shadow-tm-level-1 {
+  box-shadow: var(--shadow-level-1);
+}
+.shadow-tm-level-2 {
+  box-shadow: var(--shadow-level-2);
+}
+.shadow-tm-level-3 {
+  box-shadow: var(--shadow-level-3);
 }
 
 /* Snap Carousel Styles */

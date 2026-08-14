@@ -29,6 +29,7 @@ export default function App() {
     'Arts & Theater',
     'Family',
   ]);
+  const [maxPrice, setMaxPrice] = useState<number>(300);
   const [presaleOnly, setPresaleOnly] = useState<boolean>(false);
 
   // Modals & Navigation State
@@ -67,6 +68,7 @@ export default function App() {
     setSelectedCategories(['Concerts', 'Sports', 'Arts & Theater', 'Family']);
     setSelectedDateRange('all');
     setSelectedLocation('All Cities');
+    setMaxPrice(300);
     setSearchQuery('');
     setPresaleOnly(false);
   };
@@ -76,6 +78,9 @@ export default function App() {
     return events.filter((ev) => {
       // Category Match
       if (!selectedCategories.includes(ev.category)) return false;
+
+      // Price Match
+      if (ev.priceFrom > maxPrice) return false;
 
       // Location Match
       if (selectedLocation !== 'All Cities' && !selectedLocation.includes('Current Location')) {
@@ -104,7 +109,7 @@ export default function App() {
 
       return true;
     });
-  }, [events, selectedCategories, selectedLocation, selectedDateRange, presaleOnly, searchQuery]);
+  }, [events, selectedCategories, selectedLocation, selectedDateRange, maxPrice, presaleOnly, searchQuery]);
 
   // Featured Spotlight Event (Default: The Eagles / Sphere or first featured)
   const spotlightEvent = events.find((e) => e.featured) || events[0];
@@ -112,6 +117,7 @@ export default function App() {
   // Carousels Datasets
   const popularEvents = events.filter((e) => e.popular);
   const concertEvents = events.filter((e) => e.category === 'Concerts');
+  const sportsEvents = events.filter((e) => e.category === 'Sports');
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f6f6f6] font-sans antialiased text-[#121212]">
@@ -171,10 +177,19 @@ export default function App() {
 
         <CarouselSection
           carouselId="concertsCarousel"
-          title="Top Concerts & World Tours"
+          title="Concert Highlights & World Tours"
           subTitle="Stadium headliners, arena tours, and iconic resident stages"
           icon={<Music className="w-5 h-5 text-[#024ddf]" />}
           events={concertEvents}
+          onSelectEvent={(event) => setSelectedEventForMap(event)}
+        />
+
+        <CarouselSection
+          carouselId="sportsCarousel"
+          title="Sports Spotlight & Championship Games"
+          subTitle="NBA rivalries, MLB showdowns, and international tournament matches"
+          icon={<Trophy className="w-5 h-5 text-[#00875a]" />}
+          events={sportsEvents}
           onSelectEvent={(event) => setSelectedEventForMap(event)}
         />
 
@@ -185,6 +200,8 @@ export default function App() {
           onToggleCategory={handleToggleCategory}
           selectedDateRange={selectedDateRange}
           onSelectDateRange={setSelectedDateRange}
+          maxPrice={maxPrice}
+          onMaxPriceChange={setMaxPrice}
           presaleOnly={presaleOnly}
           onTogglePresale={() => setPresaleOnly(!presaleOnly)}
           onResetFilters={handleResetFilters}
