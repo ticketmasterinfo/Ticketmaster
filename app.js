@@ -17,116 +17,327 @@ function getRelativeDate(daysAhead) {
 
 const FALLBACK_EVENTS = [
   {
-    id: 'tm-fallback-1',
-    title: 'The Eagles: Live At Sphere',
+    id: 'VV1aZ9v1001TM',
+    title: 'Eagles: The Long Farewell Tour',
     category: 'Concerts',
     genre: 'Classic Rock',
+    venue: 'TD Garden',
+    city: 'Boston',
+    state: 'MA',
+    price: 150,
+    maxPrice: 750,
+    dateInfo: { month: 'AUG', day: 17, dow: 'MON', fullFormatted: 'Mon, Aug 17 • 2026', timestamp: new Date('2026-08-17T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: true,
+    lineup: ['Eagles', 'Steely Dan'],
+    venueAddress: '100 Legends Way, Boston, MA 02114',
+    fullDescription: 'Experience Eagles: The Long Farewell Tour live at TD Garden in Boston, MA. Features world-class production, state-of-the-art audio, and an unforgettable live experience.',
+    entryRequirements: 'Clear bag policy strictly enforced. Professional cameras, recording devices, and outside food/beverage are prohibited.'
+  },
+  {
+    id: 'VV1aZ9v1002TM',
+    title: 'Metallica: M72 World Tour',
+    category: 'Concerts',
+    genre: 'Heavy Metal',
+    venue: 'Madison Square Garden',
+    city: 'New York',
+    state: 'NY',
+    price: 95,
+    maxPrice: 450,
+    dateInfo: { month: 'AUG', day: 20, dow: 'THU', fullFormatted: 'Thu, Aug 20 • 2026', timestamp: new Date('2026-08-20T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: false,
+    lineup: ['Metallica', 'Pantera', 'Mammoth WVH'],
+    venueAddress: '4 Pennsylvania Plaza, New York, NY 10001',
+    fullDescription: 'Experience Metallica: M72 World Tour live at Madison Square Garden in New York, NY. Features the iconic in-the-round stage setup and unmatched metal power.',
+    entryRequirements: 'Clear bag policy strictly enforced. Re-entry is prohibited once validated.'
+  },
+  {
+    id: 'VV1aZ9v1003TM',
+    title: 'Taylor Swift: The Eras Tour',
+    category: 'Concerts',
+    genre: 'Pop',
+    venue: 'Crypto.com Arena',
+    city: 'Los Angeles',
+    state: 'CA',
+    price: 199,
+    maxPrice: 899,
+    dateInfo: { month: 'AUG', day: 24, dow: 'MON', fullFormatted: 'Mon, Aug 24 • 2026', timestamp: new Date('2026-08-24T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: true,
+    lineup: ['Taylor Swift', 'Gracie Abrams'],
+    venueAddress: '1111 S Figueroa St, Los Angeles, CA 90015',
+    fullDescription: 'Experience Taylor Swift: The Eras Tour live at Crypto.com Arena in Los Angeles, CA. Journey through all musical eras with breathtaking stadium visuals.',
+    entryRequirements: 'Clear bag policy strictly enforced. Valid digital mobile ticket required.'
+  },
+  {
+    id: 'VV1aZ9v1004TM',
+    title: 'Coldplay: Music of the Spheres World Tour',
+    category: 'Concerts',
+    genre: 'Alternative Rock',
     venue: 'Sphere',
     city: 'Las Vegas',
     state: 'NV',
-    price: 185,
-    dateInfo: getRelativeDate(3),
-    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80',
+    price: 85,
+    maxPrice: 380,
+    dateInfo: { month: 'AUG', day: 28, dow: 'FRI', fullFormatted: 'Fri, Aug 28 • 2026', timestamp: new Date('2026-08-28T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
     popular: true,
-    presale: true
+    presale: true,
+    lineup: ['Coldplay', 'H.E.R.'],
+    venueAddress: '255 Sands Ave, Las Vegas, NV 89109',
+    fullDescription: 'Experience Coldplay: Music of the Spheres World Tour live inside the ground-breaking immersive Sphere in Las Vegas with kinetic LED wristbands.',
+    entryRequirements: 'Mobile ticketing only. Strict bag sizing restrictions apply.'
   },
   {
-    id: 'tm-fallback-2',
+    id: 'VV1aZ9v1005TM',
+    title: "Drake & PartyNextDoor: It's All A Blur",
+    category: 'Concerts',
+    genre: 'Hip-Hop/Rap',
+    venue: 'United Center',
+    city: 'Chicago',
+    state: 'IL',
+    price: 120,
+    maxPrice: 600,
+    dateInfo: { month: 'SEP', day: 1, dow: 'TUE', fullFormatted: 'Tue, Sep 01 • 2026', timestamp: new Date('2026-09-01T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: false,
+    lineup: ['Drake', 'PartyNextDoor'],
+    venueAddress: '1901 W Madison St, Chicago, IL 60612',
+    fullDescription: "Experience Drake & PartyNextDoor: It's All A Blur live at United Center in Chicago, IL. A massive arena showcase featuring chart-topping anthems.",
+    entryRequirements: 'Mobile ticketing enforced. Outside food and beverages prohibited.'
+  },
+  {
+    id: 'VV1aZ9v1006TM',
+    title: 'Billie Eilish: Hit Me Hard and Soft Tour',
+    category: 'Concerts',
+    genre: 'Pop / Alternative',
+    venue: 'Kaseya Center',
+    city: 'Miami',
+    state: 'FL',
+    price: 75,
+    maxPrice: 320,
+    dateInfo: { month: 'SEP', day: 5, dow: 'SAT', fullFormatted: 'Sat, Sep 05 • 2026', timestamp: new Date('2026-09-05T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: true,
+    lineup: ['Billie Eilish'],
+    venueAddress: '601 Biscayne Blvd, Miami, FL 33132',
+    fullDescription: 'Experience Billie Eilish: Hit Me Hard and Soft Tour live at Kaseya Center in Miami, FL with dynamic 360-degree stage visuals.',
+    entryRequirements: 'Digital entry only. Eco-friendly sustainability guidelines encouraged.'
+  },
+  {
+    id: 'VV1aZ9v1007TM',
     title: 'New York Knicks vs. Boston Celtics',
+    category: 'Sports',
+    genre: 'NBA Basketball',
+    venue: 'TD Garden',
+    city: 'Boston',
+    state: 'MA',
+    price: 90,
+    maxPrice: 550,
+    dateInfo: { month: 'AUG', day: 18, dow: 'TUE', fullFormatted: 'Tue, Aug 18 • 2026', timestamp: new Date('2026-08-18T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: false,
+    lineup: ['New York Knicks', 'Boston Celtics'],
+    venueAddress: '100 Legends Way, Boston, MA 02114',
+    fullDescription: 'Experience the historic Eastern Conference rivalry as the New York Knicks take on the Boston Celtics at TD Garden in Boston.',
+    entryRequirements: 'Arena security protocol. Standard NBA clear bag policy in effect.'
+  },
+  {
+    id: 'VV1aZ9v1008TM',
+    title: 'Los Angeles Lakers vs. Golden State Warriors',
     category: 'Sports',
     genre: 'NBA Basketball',
     venue: 'Madison Square Garden',
     city: 'New York',
     state: 'NY',
-    price: 95,
-    dateInfo: getRelativeDate(5),
-    image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1200&q=80',
-    popular: true,
-    presale: false
-  },
-  {
-    id: 'tm-fallback-3',
-    title: 'Hamilton: An American Musical',
-    category: 'Arts & Theater',
-    genre: 'Broadway Musical',
-    venue: 'Richard Rodgers Theatre',
-    city: 'New York',
-    state: 'NY',
-    price: 125,
-    dateInfo: getRelativeDate(7),
-    image: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=1200&q=80',
-    popular: true,
-    presale: true
-  },
-  {
-    id: 'tm-fallback-4',
-    title: 'Metallica: M72 Stadium World Tour',
-    category: 'Concerts',
-    genre: 'Heavy Metal',
-    venue: 'MetLife Stadium',
-    city: 'East Rutherford',
-    state: 'NJ',
-    price: 140,
-    dateInfo: getRelativeDate(11),
-    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1200&q=80',
-    popular: true,
-    presale: false
-  },
-  {
-    id: 'tm-fallback-5',
-    title: 'Disney On Ice: Magic In The Stars',
-    category: 'Family',
-    genre: 'Family Ice Show',
-    venue: 'Barclays Center',
-    city: 'Brooklyn',
-    state: 'NY',
-    price: 45,
-    dateInfo: getRelativeDate(14),
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
-    popular: false,
-    presale: true
-  },
-  {
-    id: 'tm-fallback-6',
-    title: 'Coldplay: Music of the Spheres Tour',
-    category: 'Concerts',
-    genre: 'Pop / Alternative',
-    venue: 'Rose Bowl Stadium',
-    city: 'Pasadena',
-    state: 'CA',
     price: 110,
-    dateInfo: getRelativeDate(19),
-    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
+    maxPrice: 650,
+    dateInfo: { month: 'AUG', day: 21, dow: 'FRI', fullFormatted: 'Fri, Aug 21 • 2026', timestamp: new Date('2026-08-21T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1200&q=80',
     popular: true,
-    presale: true
+    presale: true,
+    lineup: ['Los Angeles Lakers', 'Golden State Warriors'],
+    venueAddress: '4 Pennsylvania Plaza, New York, NY 10001',
+    fullDescription: 'Marquee blockbuster showdown between the Los Angeles Lakers and Golden State Warriors at the World’s Most Famous Arena.',
+    entryRequirements: 'Mobile ticketing mandatory. Re-entry is not permitted.'
   },
   {
-    id: 'tm-fallback-7',
-    title: 'Los Angeles Dodgers vs. San Francisco Giants',
+    id: 'VV1aZ9v1009TM',
+    title: 'New York Rangers vs. New Jersey Devils',
     category: 'Sports',
-    genre: 'MLB Baseball',
-    venue: 'Dodger Stadium',
+    genre: 'NHL Hockey',
+    venue: 'Crypto.com Arena',
     city: 'Los Angeles',
     state: 'CA',
     price: 65,
-    dateInfo: getRelativeDate(22),
-    image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80',
+    maxPrice: 320,
+    dateInfo: { month: 'AUG', day: 25, dow: 'TUE', fullFormatted: 'Tue, Aug 25 • 2026', timestamp: new Date('2026-08-25T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1580748141549-71748dbe0bdc?auto=format&fit=crop&w=1200&q=80',
     popular: true,
-    presale: false
+    presale: false,
+    lineup: ['New York Rangers', 'New Jersey Devils'],
+    venueAddress: '1111 S Figueroa St, Los Angeles, CA 90015',
+    fullDescription: 'High-intensity NHL showdown featuring hard hits, rapid breakaways, and world-class goaltending at Crypto.com Arena.',
+    entryRequirements: 'Clear bag policy. Doors open 60 minutes prior to puck drop.'
   },
   {
-    id: 'tm-fallback-8',
-    title: 'Cirque du Soleil: "O" Aquatic Masterpiece',
-    category: 'Arts & Theater',
-    genre: 'Circus Arts',
-    venue: 'Bellagio Hotel & Casino',
+    id: 'VV1aZ9v1010TM',
+    title: 'WWE Monday Night RAW Live',
+    category: 'Sports',
+    genre: 'Professional Wrestling',
+    venue: 'Sphere',
     city: 'Las Vegas',
     state: 'NV',
-    price: 135,
-    dateInfo: getRelativeDate(28),
-    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80',
+    price: 40,
+    maxPrice: 250,
+    dateInfo: { month: 'AUG', day: 29, dow: 'SAT', fullFormatted: 'Sat, Aug 29 • 2026', timestamp: new Date('2026-08-29T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=1200&q=80',
     popular: false,
-    presale: true
+    presale: true,
+    lineup: ['WWE Superstars', 'Cody Rhodes', 'Rhea Ripley'],
+    venueAddress: '255 Sands Ave, Las Vegas, NV 89109',
+    fullDescription: 'Experience WWE Monday Night RAW Live broadcast live from Sphere in Las Vegas with immersive titantron pyrotechnics.',
+    entryRequirements: 'All ages welcome. Strict arena screening upon entry.'
+  },
+  {
+    id: 'VV1aZ9v1011TM',
+    title: 'Hamilton: An American Musical',
+    category: 'Arts & Theater',
+    genre: 'Broadway Musical',
+    venue: 'United Center',
+    city: 'Chicago',
+    state: 'IL',
+    price: 125,
+    maxPrice: 450,
+    dateInfo: { month: 'AUG', day: 19, dow: 'WED', fullFormatted: 'Wed, Aug 19 • 2026', timestamp: new Date('2026-08-19T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: true,
+    lineup: ['Broadway Original Cast Ensemble'],
+    venueAddress: '1901 W Madison St, Chicago, IL 60612',
+    fullDescription: 'Lin-Manuel Miranda’s Pulitzer Prize-winning cultural phenomenon blending hip-hop, jazz, and R&B storytelling.',
+    entryRequirements: 'Late arrivals will be seated at appropriate pauses in the performance.'
+  },
+  {
+    id: 'VV1aZ9v1012TM',
+    title: 'Wicked: The Untold Story of the Witches of Oz',
+    category: 'Arts & Theater',
+    genre: 'Broadway Musical',
+    venue: 'Kaseya Center',
+    city: 'Miami',
+    state: 'FL',
+    price: 99,
+    maxPrice: 380,
+    dateInfo: { month: 'AUG', day: 23, dow: 'SUN', fullFormatted: 'Sun, Aug 23 • 2026', timestamp: new Date('2026-08-23T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: false,
+    lineup: ['Gershwin Theatre Cast'],
+    venueAddress: '601 Biscayne Blvd, Miami, FL 33132',
+    fullDescription: 'The blockbuster musical looking at what happened in the Land of Oz from a different angle with breathtaking musical scores.',
+    entryRequirements: 'Recommended for ages 8 and up. Mobile entry only.'
+  },
+  {
+    id: 'VV1aZ9v1013TM',
+    title: 'Bill Burr: Live Stand-up Comedy',
+    category: 'Arts & Theater',
+    genre: 'Comedy',
+    venue: 'TD Garden',
+    city: 'Boston',
+    state: 'MA',
+    price: 65,
+    maxPrice: 220,
+    dateInfo: { month: 'AUG', day: 26, dow: 'WED', fullFormatted: 'Wed, Aug 26 • 2026', timestamp: new Date('2026-08-26T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1585699324551-f6c309eedeca?auto=format&fit=crop&w=1200&q=80',
+    popular: false,
+    presale: true,
+    lineup: ['Bill Burr'],
+    venueAddress: '100 Legends Way, Boston, MA 02114',
+    fullDescription: 'Grammy-nominated comedian Bill Burr delivers his signature unfiltered, fast-paced comedy live at TD Garden.',
+    entryRequirements: 'Phone-free event: devices locked in secure pouches during show.'
+  },
+  {
+    id: 'VV1aZ9v1014TM',
+    title: 'The Lion King Broadway Production',
+    category: 'Arts & Theater',
+    genre: 'Broadway Musical',
+    venue: 'Madison Square Garden',
+    city: 'New York',
+    state: 'NY',
+    price: 105,
+    maxPrice: 410,
+    dateInfo: { month: 'AUG', day: 30, dow: 'SUN', fullFormatted: 'Sun, Aug 30 • 2026', timestamp: new Date('2026-08-30T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1514306191717-452ec28c7814?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: false,
+    lineup: ['Minskoff Theatre Cast'],
+    venueAddress: '4 Pennsylvania Plaza, New York, NY 10001',
+    fullDescription: 'Marvel at the stunning visual artistry, unforgettable music, and extraordinary theatrical puppetry of Disney’s The Lion King.',
+    entryRequirements: 'All attendees must hold a ticket regardless of age.'
+  },
+  {
+    id: 'VV1aZ9v1015TM',
+    title: 'Disney On Ice: Magic In The Stars',
+    category: 'Family',
+    genre: 'Children & Family',
+    venue: 'Crypto.com Arena',
+    city: 'Los Angeles',
+    state: 'CA',
+    price: 35,
+    maxPrice: 140,
+    dateInfo: { month: 'AUG', day: 22, dow: 'SAT', fullFormatted: 'Sat, Aug 22 • 2026', timestamp: new Date('2026-08-22T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
+    popular: true,
+    presale: true,
+    lineup: ['Disney On Ice Performers'],
+    venueAddress: '1111 S Figueroa St, Los Angeles, CA 90015',
+    fullDescription: 'Chart a course through the night sky with Mickey, Minnie, Elsa, Mirabel, and Disney stars in an enchanting ice extravaganza.',
+    entryRequirements: 'Costumes permitted for guests under 14. Children under 2 free on parent lap.'
+  },
+  {
+    id: 'VV1aZ9v1016TM',
+    title: 'Monster Jam World Finals',
+    category: 'Family',
+    genre: 'Motorsports / Family',
+    venue: 'Sphere',
+    city: 'Las Vegas',
+    state: 'NV',
+    price: 30,
+    maxPrice: 120,
+    dateInfo: { month: 'SEP', day: 3, dow: 'THU', fullFormatted: 'Thu, Sep 03 • 2026', timestamp: new Date('2026-09-03T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80',
+    popular: false,
+    presale: false,
+    lineup: ['Grave Digger', 'Max-D', 'El Toro Loco'],
+    venueAddress: '255 Sands Ave, Las Vegas, NV 89109',
+    fullDescription: 'The most unexpected, unscripted, and unforgettable motorsports experience with world championship gravity-defying stunts.',
+    entryRequirements: 'Ear protection recommended for young children. Pit Party passes available.'
+  },
+  {
+    id: 'VV1aZ9v1017TM',
+    title: 'PAW Patrol Live!: Heroes Unite',
+    category: 'Family',
+    genre: "Children's Theater",
+    venue: 'United Center',
+    city: 'Chicago',
+    state: 'IL',
+    price: 25,
+    maxPrice: 95,
+    dateInfo: { month: 'SEP', day: 7, dow: 'MON', fullFormatted: 'Mon, Sep 07 • 2026', timestamp: new Date('2026-09-07T20:55:04').getTime() },
+    image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80',
+    popular: false,
+    presale: true,
+    lineup: ['PAW Patrol Live Performers'],
+    venueAddress: '1901 W Madison St, Chicago, IL 60612',
+    fullDescription: 'Calling all heroes! Ryder and the PAW Patrol pups embark on their biggest stage mission yet with interactive audience participation.',
+    entryRequirements: 'Family-friendly entry with booster seats and stroller check available.'
   }
 ];
 
@@ -527,14 +738,50 @@ function openSeatMapModal(eventId) {
   const modalTitle = document.getElementById('modalEventTitle');
   const modalMeta = document.getElementById('modalEventMeta');
 
+  const basePrice = ev.price || 85;
+  const maxPrice = ev.maxPrice || Math.round(basePrice * 2.8);
+
+  const vipPrice = maxPrice;
+  const clubPrice = Math.round(basePrice * 1.6);
+  const floorPrice = Math.round(basePrice * 1.3);
+  const lowerPrice = basePrice;
+  const upperPrice = Math.round(Math.max(basePrice * 0.6, 25));
+
+  // Update Tier labels in modal DOM
+  const tierMap = {
+    'VIP Suites Zone': vipPrice,
+    'Club Lounge 200s': clubPrice,
+    'Floor General Admission': floorPrice,
+    'Lower Bowl 100s': lowerPrice,
+    'Upper Balcony 300s': upperPrice
+  };
+
+  document.querySelectorAll('.tier-item').forEach(item => {
+    const tier = item.getAttribute('data-tier');
+    if (tier && tierMap[tier] !== undefined) {
+      const priceSpan = item.querySelector('span:last-child');
+      if (priceSpan) priceSpan.textContent = `$${tierMap[tier]}.00`;
+      item.setAttribute('onclick', `selectVenueTier('${tier}', ${tierMap[tier]}, '${tier === 'VIP Suites Zone' ? '#F59E0B' : tier === 'Floor General Admission' ? '#024ddf' : tier === 'Club Lounge 200s' ? '#8B5CF6' : tier === 'Lower Bowl 100s' ? '#10B981' : '#64748B'}')`);
+    }
+  });
+
+  // Update SVG Section Data Attributes
+  document.querySelectorAll('.map-section').forEach(sec => {
+    const tier = sec.getAttribute('data-tier-name');
+    if (tier && tierMap[tier] !== undefined) {
+      sec.setAttribute('data-price', tierMap[tier]);
+    }
+  });
+
   if (modal && modalTitle && modalMeta) {
     modalTitle.textContent = ev.title;
-    modalMeta.textContent = `${ev.dateInfo.fullFormatted} • ${ev.venue} (${ev.city}, ${ev.state})`;
+    const lineupText = ev.lineup && ev.lineup.length > 0 ? `Lineup: ${ev.lineup.join(', ')} • ` : '';
+    modalMeta.textContent = `${lineupText}${ev.dateInfo.fullFormatted} • ${ev.venue} (${ev.city}, ${ev.state})`;
     modal.classList.add('active');
   }
 
-  // Default Tier
-  selectVenueTier('VIP Suites Zone', Math.max(ev.price * 1.5, 250), '#F59E0B');
+  // Select Floor or VIP tier by default
+  selectVenueTier('Floor General Admission', floorPrice, '#024ddf');
 }
 
 function closeSeatMapModal() {
@@ -617,7 +864,7 @@ function scrollCarousel(trackId, distance) {
 function setCategoryFilter(category) {
   AppState.selectedCategory = category;
 
-  // Update Nav Tabs
+  // Update Desktop Nav Tabs
   const navTabs = document.querySelectorAll('.nav-tab-btn');
   navTabs.forEach(tab => {
     if (tab.getAttribute('data-cat') === category) {
@@ -627,7 +874,29 @@ function setCategoryFilter(category) {
     }
   });
 
+  // Update Mobile Cat Pills
+  const mobilePills = document.querySelectorAll('.mobile-cat-pill');
+  mobilePills.forEach(pill => {
+    if (pill.getAttribute('data-cat') === category) {
+      pill.classList.add('active');
+    } else {
+      pill.classList.remove('active');
+    }
+  });
+
   renderFilteredEventsStream();
+}
+
+function toggleMobileFilterDrawer() {
+  const sidebar = document.getElementById('filterSidebar');
+  const btnText = document.getElementById('mobileFilterButtonText');
+  if (sidebar) {
+    sidebar.classList.toggle('open');
+    const isOpen = sidebar.classList.contains('open');
+    if (btnText) {
+      btnText.textContent = isOpen ? 'Hide Filters ▲' : 'Filters & Refinements ▼';
+    }
+  }
 }
 
 function handlePriceSliderChange(value) {
@@ -687,10 +956,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const mapSections = document.querySelectorAll('.map-section');
   mapSections.forEach(sec => {
     sec.addEventListener('click', () => {
-      const name = sec.getAttribute('data-tier-name');
+      const name = sec.getAttribute('data-tier-name') || sec.getAttribute('data-section');
       const price = parseFloat(sec.getAttribute('data-price') || '150');
       const color = sec.getAttribute('fill') || '#024ddf';
       selectVenueTier(name, price, color);
     });
   });
 });
+
+// Interoperability Aliases
+window.fetchLiveTicketmasterEvents = fetchTicketmasterEvents;
+window.fetchTicketmasterEvents = fetchTicketmasterEvents;
+window.selectTier = selectVenueTier;
+window.selectVenueTier = selectVenueTier;
+window.filterEvents = renderFilteredEventsStream;
+window.renderFilteredEvents = renderFilteredEventsStream;
+window.selectSearchMatch = selectDropdownMatch;
+window.openSeatMapModal = openSeatMapModal;
+window.closeSeatMapModal = closeSeatMapModal;
+window.setCategoryFilter = setCategoryFilter;
+window.handlePriceSliderChange = handlePriceSliderChange;
+window.togglePresaleFilter = togglePresaleFilter;
+window.resetAllFilters = resetAllFilters;
+window.promptApiKey = promptApiKey;
+window.proceedToCheckout = proceedToCheckout;
+window.updateTicketQuantity = updateTicketQuantity;
+window.scrollCarousel = scrollCarousel;
+window.toggleMobileFilterDrawer = toggleMobileFilterDrawer;

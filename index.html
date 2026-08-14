@@ -16,21 +16,7 @@
   </head>
   <body>
 
-    <!-- 1. API STATUS & CONFIGURATION BAR -->
-    <div id="apiStatusBar" class="api-bar">
-      <div class="container api-bar-inner">
-        <div class="api-status-badge">
-          <span class="pulse-dot"></span>
-          <span id="apiStatusMessage">Ticketmaster Discovery API v2 (Ready & Connected)</span>
-        </div>
-        <div class="api-actions">
-          <button class="api-btn" onclick="promptApiKey()">Configure API Key</button>
-          <button class="api-btn" onclick="fetchTicketmasterEvents('', 'New York')">Sync Live NY Events</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. GLOBAL TOP UTILITY BAR (#121212) -->
+    <!-- 1. GLOBAL TOP UTILITY BAR (#121212) -->
     <header class="top-utility-bar">
       <div class="container utility-inner">
         <div class="utility-left">
@@ -71,7 +57,7 @@
             </div>
           </div>
 
-          <!-- Main Categories Navigation -->
+          <!-- Main Categories Navigation (Desktop) -->
           <div class="category-nav">
             <button class="nav-tab-btn active" data-cat="All" onclick="setCategoryFilter('All')">All Events</button>
             <button class="nav-tab-btn" data-cat="Concerts" onclick="setCategoryFilter('Concerts')">Concerts</button>
@@ -84,8 +70,19 @@
         <div class="header-right-actions">
           <button class="city-pill-btn" onclick="document.getElementById('omniboxLocationSelect').focus()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffb932" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>Location</span>
+            <span class="city-pill-text">Location</span>
           </button>
+        </div>
+      </div>
+
+      <!-- Mobile Horizontal Category Scroll Bar -->
+      <div class="mobile-category-bar">
+        <div class="mobile-category-scroll">
+          <button class="mobile-cat-pill active" data-cat="All" onclick="setCategoryFilter('All')">All</button>
+          <button class="mobile-cat-pill" data-cat="Concerts" onclick="setCategoryFilter('Concerts')">Concerts</button>
+          <button class="mobile-cat-pill" data-cat="Sports" onclick="setCategoryFilter('Sports')">Sports</button>
+          <button class="mobile-cat-pill" data-cat="Arts & Theater" onclick="setCategoryFilter('Arts & Theater')">Arts & Theater</button>
+          <button class="mobile-cat-pill" data-cat="Family" onclick="setCategoryFilter('Family')">Family</button>
         </div>
       </div>
     </nav>
@@ -99,12 +96,12 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
             <select id="omniboxLocationSelect" class="omnibox-select">
               <option value="All Cities">All Cities & Venues</option>
-              <option value="New York">New York, NY</option>
-              <option value="Las Vegas">Las Vegas, NV</option>
-              <option value="Los Angeles">Los Angeles, CA</option>
-              <option value="East Rutherford">East Rutherford, NJ</option>
-              <option value="Brooklyn">Brooklyn, NY</option>
-              <option value="Pasadena">Pasadena, CA</option>
+              <option value="Boston">Boston, MA (TD Garden)</option>
+              <option value="New York">New York, NY (Madison Square Garden)</option>
+              <option value="Los Angeles">Los Angeles, CA (Crypto.com Arena)</option>
+              <option value="Las Vegas">Las Vegas, NV (Sphere)</option>
+              <option value="Chicago">Chicago, IL (United Center)</option>
+              <option value="Miami">Miami, FL (Kaseya Center)</option>
             </select>
           </div>
 
@@ -188,8 +185,17 @@
 
     <!-- 7. EVENT DISCOVERY EXPLORATION & FILTER SIDEBAR -->
     <section id="discoverySection" class="container discovery-layout">
+      <!-- Mobile Filter Toggle Button -->
+      <div class="mobile-filter-bar">
+        <button class="mobile-filter-btn" onclick="toggleMobileFilterDrawer()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+          <span id="mobileFilterButtonText">Filters & Refinements</span>
+        </button>
+        <button class="mobile-reset-btn" onclick="resetAllFilters()">Reset</button>
+      </div>
+
       <!-- Filter Sidebar -->
-      <aside class="filter-sidebar">
+      <aside id="filterSidebar" class="filter-sidebar">
         <div class="filter-section">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
             <h3 class="filter-title" style="margin-bottom: 0;">Filter Events</h3>
