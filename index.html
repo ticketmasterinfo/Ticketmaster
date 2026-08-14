@@ -3,18 +3,471 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Live Events, Concerts, Sports & Theater Tickets | Event Discovery</title>
-    <meta name="description" content="Discover live concerts, sports games, theater performances, and family shows with interactive SVG venue seat maps and ticket booking." />
-    <meta property="og:title" content="Live Events & Concert Tickets Discovery" />
-    <meta property="og:description" content="Search events, explore interactive SVG seat maps, and book tickets." />
-    <meta property="og:type" content="website" />
+    <title>Live Events, Concerts, Sports & Theater Tickets | Ticketmaster Discovery</title>
+    <meta name="description" content="Discover live concerts, sports matches, theater musicals, and family shows with Ticketmaster Discovery API v2 integration, 3-part predictive omnibox search, and interactive vector SVG venue seat maps." />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Design System Stylesheet -->
+    <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body class="bg-[#f6f6f6] text-[#121212] antialiased selection:bg-[#024ddf] selection:text-white">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body>
+
+    <!-- 1. API STATUS & CONFIGURATION BAR -->
+    <div id="apiStatusBar" class="api-bar">
+      <div class="container api-bar-inner">
+        <div class="api-status-badge">
+          <span class="pulse-dot"></span>
+          <span id="apiStatusMessage">Ticketmaster Discovery API v2 (Ready & Connected)</span>
+        </div>
+        <div class="api-actions">
+          <button class="api-btn" onclick="promptApiKey()">Configure API Key</button>
+          <button class="api-btn" onclick="fetchTicketmasterEvents('', 'New York')">Sync Live NY Events</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. GLOBAL TOP UTILITY BAR (#121212) -->
+    <header class="top-utility-bar">
+      <div class="container utility-inner">
+        <div class="utility-left">
+          <button class="utility-link" title="Change Country & Language">
+            <span>🇺🇸</span>
+            <span style="font-weight: 600;">United States</span>
+            <span style="color: #888;">(USD $)</span>
+          </button>
+          <span class="utility-divider">|</span>
+          <span style="color: #888; font-size: 0.75rem; display: none;" class="sm-show">Official Educational Ticketing Discovery Platform</span>
+        </div>
+
+        <div class="utility-right">
+          <a href="#discoverySection" class="utility-link">Hotels</a>
+          <button class="utility-link" onclick="alert('Sell Tickets: List your verified mobile barcodes with 0% upfront listing fees!')">Sell</button>
+          <button class="utility-link gold-link" onclick="alert('VIP Packages: Premium hospitality lounges, meet & greet passes, and backstage tours!')">VIP Packages</button>
+          <button class="utility-link" onclick="alert('Customer Help: 24/7 Live ticket assistance, ADA accessible seating, and 100% Buyer Guarantee.')">Help</button>
+          <span class="utility-divider">|</span>
+          <button class="utility-link" style="color: #ffffff; font-weight: 700;" onclick="alert('Sign in to access your saved tickets and presale drop codes.')">Sign In / Register</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- 3. PRIMARY STICKY BRAND HEADER (#024ddf) -->
+    <nav class="main-header">
+      <div class="container header-inner">
+        <div class="brand-group">
+          <!-- Brand Logo Mark -->
+          <div class="brand-logo" onclick="setCategoryFilter('All')">
+            <div class="logo-icon-box">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 4h16a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V6a2 2 0 0 1 2-2zm0 2v2.17A4.002 4.002 0 0 1 4 14v4h16v-2.17A4.002 4.002 0 0 1 20 8V6H4zm5 3h6a1 1 0 0 1 0 2H9a1 1 0 1 1 0-2zm0 4h6a1 1 0 0 1 0 2H9a1 1 0 0 1 0-2z" />
+              </svg>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+              <span class="brand-title">TICKET<span>PASS</span></span>
+              <span class="brand-subtitle">Live Event Discovery</span>
+            </div>
+          </div>
+
+          <!-- Main Categories Navigation -->
+          <div class="category-nav">
+            <button class="nav-tab-btn active" data-cat="All" onclick="setCategoryFilter('All')">All Events</button>
+            <button class="nav-tab-btn" data-cat="Concerts" onclick="setCategoryFilter('Concerts')">Concerts</button>
+            <button class="nav-tab-btn" data-cat="Sports" onclick="setCategoryFilter('Sports')">Sports</button>
+            <button class="nav-tab-btn" data-cat="Arts & Theater" onclick="setCategoryFilter('Arts & Theater')">Arts & Theater</button>
+            <button class="nav-tab-btn" data-cat="Family" onclick="setCategoryFilter('Family')">Family</button>
+          </div>
+        </div>
+
+        <div class="header-right-actions">
+          <button class="city-pill-btn" onclick="document.getElementById('omniboxLocationSelect').focus()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffb932" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>Location</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 4. 3-PART OMNIBOX SEARCH SECTION -->
+    <section class="omnibox-section">
+      <div class="container">
+        <div class="omnibox-container">
+          <!-- Field 1: Location -->
+          <div class="omnibox-field">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <select id="omniboxLocationSelect" class="omnibox-select">
+              <option value="All Cities">All Cities & Venues</option>
+              <option value="New York">New York, NY</option>
+              <option value="Las Vegas">Las Vegas, NV</option>
+              <option value="Los Angeles">Los Angeles, CA</option>
+              <option value="East Rutherford">East Rutherford, NJ</option>
+              <option value="Brooklyn">Brooklyn, NY</option>
+              <option value="Pasadena">Pasadena, CA</option>
+            </select>
+          </div>
+
+          <!-- Field 2: Dates -->
+          <div class="omnibox-field">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <select id="omniboxDateSelect" class="omnibox-select">
+              <option value="all">All Upcoming Dates</option>
+              <option value="this_weekend">This Weekend</option>
+              <option value="next_7_days">Next 7 Days</option>
+              <option value="next_30_days">Next 30 Days</option>
+            </select>
+          </div>
+
+          <!-- Field 3: Search Query with Live Autocomplete -->
+          <div class="omnibox-field" style="flex: 1.5; position: relative;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="omniboxSearchInput" class="omnibox-input" placeholder="Search by artist, team, venue, or show..." autocomplete="off" />
+            
+            <!-- Live Predictive Dropdown -->
+            <div id="omniboxDropdown" class="search-dropdown"></div>
+          </div>
+
+          <!-- Submit Button -->
+          <button class="omnibox-submit-btn" onclick="fetchTicketmasterEvents(document.getElementById('omniboxSearchInput').value, document.getElementById('omniboxLocationSelect').value)">
+            <span>Search</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. HERO SPOTLIGHT BILLBOARD -->
+    <section id="heroSpotlightSection" class="hero-spotlight"></section>
+
+    <!-- 6. HORIZONTAL SNAP-SCROLL CAROUSELS -->
+    <!-- Carousel 1: Popular Near You -->
+    <section class="carousel-section">
+      <div class="container">
+        <div class="carousel-header">
+          <div class="carousel-title-group">
+            <h2 class="carousel-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#d91b5c"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>
+              <span>Popular Events Near You</span>
+            </h2>
+            <span class="carousel-subtitle">Trending live concerts and premier sporting matchups</span>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-arrow-btn" onclick="scrollCarousel('popularCarouselTrack', -320)" aria-label="Previous">❮</button>
+            <button class="carousel-arrow-btn" onclick="scrollCarousel('popularCarouselTrack', 320)" aria-label="Next">❯</button>
+          </div>
+        </div>
+
+        <div class="carousel-track-wrapper">
+          <div id="popularCarouselTrack" class="carousel-track"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carousel 2: Concerts & World Tours -->
+    <section class="carousel-section" style="padding-top: 0;">
+      <div class="container">
+        <div class="carousel-header">
+          <div class="carousel-title-group">
+            <h2 class="carousel-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#024ddf"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+              <span>Concert Highlights & Arena Tours</span>
+            </h2>
+            <span class="carousel-subtitle">Stadium tours, headliner residencies, and festival passes</span>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-arrow-btn" onclick="scrollCarousel('concertsCarouselTrack', -320)" aria-label="Previous">❮</button>
+            <button class="carousel-arrow-btn" onclick="scrollCarousel('concertsCarouselTrack', 320)" aria-label="Next">❯</button>
+          </div>
+        </div>
+
+        <div class="carousel-track-wrapper">
+          <div id="concertsCarouselTrack" class="carousel-track"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. EVENT DISCOVERY EXPLORATION & FILTER SIDEBAR -->
+    <section id="discoverySection" class="container discovery-layout">
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-section">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h3 class="filter-title" style="margin-bottom: 0;">Filter Events</h3>
+            <button onclick="resetAllFilters()" style="font-size: 0.75rem; color: var(--tm-blue-primary); font-weight: 700;">Reset</button>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="filter-section">
+          <h4 class="filter-title">Category</h4>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" checked onchange="setCategoryFilter('All')" />
+            <span>All Categories</span>
+          </label>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" onchange="setCategoryFilter('Concerts')" />
+            <span>Concerts & Tours</span>
+          </label>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" onchange="setCategoryFilter('Sports')" />
+            <span>Sports & Leagues</span>
+          </label>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" onchange="setCategoryFilter('Arts & Theater')" />
+            <span>Arts & Broadway</span>
+          </label>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" onchange="setCategoryFilter('Family')" />
+            <span>Family & Circus</span>
+          </label>
+        </div>
+
+        <!-- Max Price Slider -->
+        <div class="filter-section">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <h4 class="filter-title" style="margin-bottom: 0;">Max Price</h4>
+            <span id="priceSliderValue" style="font-size: 0.8125rem; font-weight: 800; color: var(--tm-blue-primary);">$300</span>
+          </div>
+          <input type="range" id="priceSlider" class="price-slider" min="40" max="300" step="10" value="300" oninput="handlePriceSliderChange(this.value)" />
+          <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: #888; margin-top: 0.25rem;">
+            <span>$40</span>
+            <span>$150</span>
+            <span>$300+</span>
+          </div>
+        </div>
+
+        <!-- Presale Filter -->
+        <div class="filter-section">
+          <h4 class="filter-title">Special Access</h4>
+          <label class="filter-checkbox-label">
+            <input type="checkbox" id="presaleCheckbox" onchange="togglePresaleFilter(this.checked)" />
+            <span>Verified Presale Only</span>
+          </label>
+        </div>
+      </aside>
+
+      <!-- Events Stream Container -->
+      <main class="events-stream-container">
+        <div class="stream-header">
+          <div class="stream-count">
+            Showing <span id="eventsCountBadge">0</span> Live Events
+          </div>
+          <div style="font-size: 0.75rem; color: var(--tm-text-secondary);">
+            Transparent pricing with verified barcode guarantees
+          </div>
+        </div>
+
+        <div id="eventsStreamContainer"></div>
+      </main>
+    </section>
+
+    <!-- 8. INTERACTIVE VECTOR SVG VENUE SEAT MAP MODAL -->
+    <div id="seatMapModal" class="modal-overlay">
+      <div class="modal-card">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <div>
+            <h3 id="modalEventTitle" class="modal-title">Select Your Seats</h3>
+            <p id="modalEventMeta" style="font-size: 0.75rem; color: #a0a0a0;"></p>
+          </div>
+          <button class="modal-close-btn" onclick="closeSeatMapModal()" aria-label="Close modal">×</button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <!-- Left: Vector SVG Venue Diagram -->
+          <div class="seatmap-container">
+            <svg viewBox="0 0 500 280" class="seatmap-svg">
+              <defs>
+                <linearGradient id="stageGlowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#024ddf" stopOpacity="0.8" />
+                </linearGradient>
+              </defs>
+
+              <!-- Main Stage Box -->
+              <rect x="150" y="15" width="200" height="35" rx="4" fill="url(#stageGlowGradient)" stroke="#38bdf8" stroke-width="2" />
+              <text x="250" y="38" fill="#ffffff" font-size="13" font-weight="900" text-anchor="middle" letter-spacing="2">
+                ★ MAIN STAGE ★
+              </text>
+
+              <!-- VIP Pit Section -->
+              <path class="map-section selected" data-tier-name="VIP Suites Zone" data-price="275"
+                d="M 175 60 L 325 60 L 310 95 L 190 95 Z"
+                fill="#F59E0B" fill-opacity="0.85" stroke="#F59E0B" stroke-width="2" />
+              <text x="250" y="82" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" pointer-events="none">
+                VIP PIT ($275)
+              </text>
+
+              <!-- Floor General Admission -->
+              <path class="map-section" data-tier-name="Floor General Admission" data-price="180"
+                d="M 140 105 L 360 105 L 340 155 L 160 155 Z"
+                fill="#024ddf" fill-opacity="0.85" stroke="#38bdf8" stroke-width="2" />
+              <text x="250" y="135" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle" pointer-events="none">
+                FLOOR GA ($180)
+              </text>
+
+              <!-- Lower Tier 100s Bowl -->
+              <path class="map-section" data-tier-name="Lower Bowl 100s" data-price="125"
+                d="M 100 165 C 180 205, 320 205, 400 165 L 380 205 C 310 235, 190 235, 120 205 Z"
+                fill="#10B981" fill-opacity="0.85" stroke="#10B981" stroke-width="2" />
+              <text x="250" y="200" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" pointer-events="none">
+                LOWER TIER 100s ($125)
+              </text>
+
+              <!-- Club Lounge Left & Right -->
+              <path class="map-section" data-tier-name="Club Lounge 200s" data-price="165"
+                d="M 60 80 L 125 100 L 110 150 L 50 120 Z"
+                fill="#8B5CF6" fill-opacity="0.85" stroke="#8B5CF6" stroke-width="2" />
+              <path class="map-section" data-tier-name="Club Lounge 200s" data-price="165"
+                d="M 440 80 L 375 100 L 390 150 L 450 120 Z"
+                fill="#8B5CF6" fill-opacity="0.85" stroke="#8B5CF6" stroke-width="2" />
+              <text x="85" y="120" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle" pointer-events="none">CLUB</text>
+              <text x="415" y="120" fill="#ffffff" font-size="8" font-weight="bold" text-anchor="middle" pointer-events="none">CLUB</text>
+
+              <!-- Upper Balcony 300s -->
+              <path class="map-section" data-tier-name="Upper Balcony 300s" data-price="55"
+                d="M 70 215 C 160 270, 340 270, 430 215 L 450 240 C 350 300, 150 300, 50 240 Z"
+                fill="#64748B" fill-opacity="0.85" stroke="#64748B" stroke-width="2" />
+              <text x="250" y="258" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle" pointer-events="none">
+                UPPER BALCONY 300s ($55)
+              </text>
+            </svg>
+          </div>
+
+          <!-- Right: Ticket Quantity & Calculation Drawer -->
+          <div class="seatmap-drawer">
+            <div>
+              <h4 class="drawer-title">Choose Seating Zone</h4>
+
+              <!-- Tier Selection List -->
+              <div class="tier-item active" data-tier="VIP Suites Zone" onclick="selectVenueTier('VIP Suites Zone', 275, '#F59E0B')">
+                <span><span class="tier-color-dot" style="background:#F59E0B;"></span>VIP Suites Zone</span>
+                <span style="font-weight: 800;">$275.00</span>
+              </div>
+              <div class="tier-item" data-tier="Floor General Admission" onclick="selectVenueTier('Floor General Admission', 180, '#024ddf')">
+                <span><span class="tier-color-dot" style="background:#024ddf;"></span>Floor General Admission</span>
+                <span style="font-weight: 800;">$180.00</span>
+              </div>
+              <div class="tier-item" data-tier="Club Lounge 200s" onclick="selectVenueTier('Club Lounge 200s', 165, '#8B5CF6')">
+                <span><span class="tier-color-dot" style="background:#8B5CF6;"></span>Club Lounge 200s</span>
+                <span style="font-weight: 800;">$165.00</span>
+              </div>
+              <div class="tier-item" data-tier="Lower Bowl 100s" onclick="selectVenueTier('Lower Bowl 100s', 125, '#10B981')">
+                <span><span class="tier-color-dot" style="background:#10B981;"></span>Lower Bowl 100s</span>
+                <span style="font-weight: 800;">$125.00</span>
+              </div>
+              <div class="tier-item" data-tier="Upper Balcony 300s" onclick="selectVenueTier('Upper Balcony 300s', 55, '#64748B')">
+                <span><span class="tier-color-dot" style="background:#64748B;"></span>Upper Balcony 300s</span>
+                <span style="font-weight: 800;">$55.00</span>
+              </div>
+
+              <!-- Ticket Quantity Selector -->
+              <div style="margin-top: 1rem;">
+                <label style="font-size: 0.8125rem; font-weight: 700; display: block; margin-bottom: 0.35rem;">Ticket Quantity</label>
+                <select id="ticketQtySelect" class="omnibox-select" style="border: 1px solid var(--tm-border-medium); border-radius: 4px; padding: 0.5rem;" onchange="updateTicketQuantity(this.value)">
+                  <option value="1">1 Ticket</option>
+                  <option value="2" selected>2 Tickets (Standard Pair)</option>
+                  <option value="3">3 Tickets</option>
+                  <option value="4">4 Tickets</option>
+                  <option value="6">6 Tickets (Group)</option>
+                </select>
+              </div>
+
+              <!-- Live Transparent Fee Calculation Breakdown -->
+              <div class="fee-breakdown">
+                <div class="fee-row">
+                  <span id="selectedTierLabel">VIP Suites Zone</span>
+                  <span id="modalSubtotal">$550.00</span>
+                </div>
+                <div class="fee-row">
+                  <span>Service Fee ($14.75/ea)</span>
+                  <span id="modalServiceFee">$29.50</span>
+                </div>
+                <div class="fee-row">
+                  <span>Facility Charge ($4.50/ea)</span>
+                  <span id="modalFacilityFee">$9.00</span>
+                </div>
+                <div class="fee-row">
+                  <span>Order Processing Fee</span>
+                  <span>$3.25</span>
+                </div>
+                <div class="fee-row total">
+                  <span>Total Due</span>
+                  <span id="modalGrandTotal" style="color: var(--tm-green);">$591.75</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Checkout Action Button -->
+            <button class="checkout-btn" onclick="proceedToCheckout()">
+              Confirm & Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. COMPREHENSIVE SITE FOOTER (#121212) -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <h4 class="footer-col-title">Shop Tickets</h4>
+            <ul class="footer-links-list">
+              <li><a href="#discoverySection">Concerts & Arena Tours</a></li>
+              <li><a href="#discoverySection">NBA & NFL Sports</a></li>
+              <li><a href="#discoverySection">Broadway & Theater</a></li>
+              <li><a href="#discoverySection">Family & Circus Shows</a></li>
+              <li><a href="#discoverySection">VIP Packages</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">Customer Care</h4>
+            <ul class="footer-links-list">
+              <li><a href="#" onclick="alert('Help Center')">Help & FAQs</a></li>
+              <li><a href="#" onclick="alert('100% Buyer Guarantee: All tickets are authentic and valid for entry.')">100% Buyer Guarantee</a></li>
+              <li><a href="#" onclick="alert('Mobile Entry Guide')">Mobile Barcode Entry</a></li>
+              <li><a href="#" onclick="alert('Ticket Transfer Service')">Ticket Transfer</a></li>
+              <li><a href="#" onclick="alert('Refund Policy')">Refund & Postponements</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">Sell & Partner</h4>
+            <ul class="footer-links-list">
+              <li><a href="#" onclick="alert('Sell Your Tickets')">Sell Your Tickets</a></li>
+              <li><a href="#" onclick="alert('Venue Solutions')">Promoter & Venue Solutions</a></li>
+              <li><a href="#" onclick="alert('Affiliate Network')">Affiliate Network</a></li>
+              <li><a href="#" onclick="alert('Verified Resale')">Verified Resale Marketplace</a></li>
+              <li><a href="#" onclick="alert('Discovery APIs')">Discovery API v2 Developer Hub</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="footer-col-title">About & Legal</h4>
+            <ul class="footer-links-list">
+              <li><a href="#" onclick="alert('Privacy Policy')">Privacy Policy</a></li>
+              <li><a href="#" onclick="alert('Purchase Terms')">Purchase Terms & Conditions</a></li>
+              <li><a href="#" onclick="alert('Security Protocols')">Security & Fraud Prevention</a></li>
+              <li><a href="#" onclick="alert('Cookie Settings')">Cookie Preferences</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div>
+            <strong>TICKETPASS PLATFORM</strong> • Live Discovery & Ticketing Architecture
+          </div>
+          <div>
+            © 2026 Ticketmaster Educational Discovery Platform. All rights reserved.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Core Script -->
+    <script src="./app.js"></script>
   </body>
 </html>
-

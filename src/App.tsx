@@ -133,7 +133,7 @@ export default function App() {
         onSignOut={() => setUser(null)}
       />
 
-      {/* 2. Main Navigation Bar (#024ddf) */}
+      {/* 2. Main Navigation Bar (#026CDF) */}
       <MainNavigation
         selectedCategory={
           selectedCategories.length === 4 ? 'All' : selectedCategories[0] || 'All'
@@ -143,6 +143,15 @@ export default function App() {
         onOpenCitySelector={() => setSelectedLocation('All Cities')}
         onOpenVipModal={() => setVipModalOpen(true)}
         onOpenSellModal={() => setSellModalOpen(true)}
+        cartCount={activeBooking ? activeBooking.quantity : 0}
+        onOpenCart={() => {
+          if (activeBooking) {
+            // Reopen checkout modal if booking exists
+          } else {
+            // Pick spotlight event if nothing in cart yet
+            setSelectedEventForMap(spotlightEvent);
+          }
+        }}
       />
 
       {/* 3. 3-Part Omnibox Search Bar */}

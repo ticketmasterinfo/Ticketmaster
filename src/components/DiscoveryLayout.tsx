@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Filter, Calendar, Tag, ShieldCheck, Ticket, Check, RotateCcw, Flame, LayoutGrid, List } from 'lucide-react';
+import { Filter, Calendar, Tag, ShieldCheck, Ticket, Check, RotateCcw, Flame, LayoutGrid, List, Layers, Eye } from 'lucide-react';
 import { EventItem, EventCategory } from '../types';
 
 interface DiscoveryLayoutProps {
@@ -30,6 +30,8 @@ export const DiscoveryLayout: React.FC<DiscoveryLayoutProps> = ({
   onSelectEvent,
 }) => {
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
+  const [selectedSeatType, setSelectedSeatType] = useState<string>('all');
+  const [activeWireframeSection, setActiveWireframeSection] = useState<string>('floor');
   const allCategories: EventCategory[] = ['Concerts', 'Sports', 'Arts & Theater', 'Family'];
 
   const dateOptions: { id: 'all' | 'today' | 'this_weekend' | 'this_week' | 'next_month'; label: string }[] = [
@@ -40,8 +42,204 @@ export const DiscoveryLayout: React.FC<DiscoveryLayoutProps> = ({
     { id: 'next_month', label: 'Next 30 Days' },
   ];
 
+  const seatTypes = [
+    { id: 'all', label: 'All Seating Types' },
+    { id: 'vip', label: 'VIP Pit & Luxury Suites' },
+    { id: 'floor', label: 'General Admission Floor' },
+    { id: 'lower', label: 'Lower Bowl Reserved' },
+    { id: 'club', label: 'Club Level Lounge' },
+    { id: 'upper', label: 'Upper Tier Balcony' },
+  ];
+
+  const wireframeSections = [
+    { id: 'vip', name: 'VIP Pit & Suites', status: 'Reserving', price: '$275+', color: '#F59E0B', statusClass: 'text-amber-400 bg-amber-500/10 border-amber-500/30', angle: 'Front & Center Stage Access' },
+    { id: 'floor', name: 'Floor General Admission', status: 'Available', price: '$180+', color: '#026CDF', statusClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30', angle: 'Direct Immersion Level' },
+    { id: 'lower', name: 'Lower Tier 100s', status: 'Available', price: '$125+', color: '#10B981', statusClass: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30', angle: 'Elevated Prime Sightlines' },
+    { id: 'club', name: 'Club Lounge 200s', status: 'Reserving', price: '$165+', color: '#8B5CF6', statusClass: 'text-amber-400 bg-amber-500/10 border-amber-500/30', angle: 'Exclusive Bar & Luxury Seating' },
+    { id: 'upper', name: 'Upper Tier 300s', status: 'Sold Out', price: '$55+', color: '#64748B', statusClass: 'text-slate-400 bg-slate-500/10 border-slate-500/30', angle: 'Panoramic Arena Vista' },
+  ];
+
+  const activeSectionInfo = wireframeSections.find(s => s.id === activeWireframeSection) || wireframeSections[0];
+
   return (
     <section id="discovery-section" className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Interactive Venue Stage Wireframe Mockup Bar */}
+      <div className="mb-8 bg-slate-900 border border-slate-800 rounded-xl p-5 sm:p-6 shadow-xl text-white">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-5 border-b border-slate-800">
+          <div>
+            <div className="flex items-center gap-2 text-[#026CDF] font-bold text-xs uppercase tracking-wider mb-1">
+              <Layers className="w-4 h-4" /> Live Interactive Stage Visualizer Wireframe
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-white">Interactive Venue Zone Availability</h3>
+            <p className="text-xs sm:text-sm text-slate-400 mt-0.5">
+              Click any colored venue tier below to inspect real-time capacity and view-angle parameters.
+            </p>
+          </div>
+
+          {/* Availability Legend */}
+          <div className="flex flex-wrap items-center gap-3 text-xs">
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Available
+            </span>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-semibold">
+              <span className="w-2 h-2 rounded-full bg-amber-400"></span> Reserving Fast
+            </span>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400 font-semibold">
+              <span className="w-2 h-2 rounded-full bg-slate-500"></span> Sold Out
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-5 items-center">
+          {/* SVG Venue Stage Wireframe */}
+          <div className="lg:col-span-7 bg-slate-950 p-4 rounded-lg border border-slate-800 flex flex-col items-center justify-center relative overflow-hidden">
+            <svg viewBox="0 0 500 280" className="w-full max-w-[460px] h-auto select-none">
+              <defs>
+                <linearGradient id="stageGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.4" />
+                  <stop offset="100%" stopColor="#026CDF" stopOpacity="0.8" />
+                </linearGradient>
+              </defs>
+
+              {/* Main Stage Rectangle */}
+              <rect x="150" y="15" width="200" height="35" rx="4" fill="url(#stageGlow)" stroke="#38BDF8" strokeWidth="2" />
+              <text x="250" y="38" fill="#ffffff" fontSize="13" fontWeight="900" textAnchor="middle" letterSpacing="2">
+                ★ MAIN STAGE ★
+              </text>
+
+              {/* VIP Pit Section */}
+              <path
+                d="M 175 60 L 325 60 L 310 95 L 190 95 Z"
+                fill={activeWireframeSection === 'vip' ? '#F59E0B' : '#78350F'}
+                fillOpacity={activeWireframeSection === 'vip' ? '0.9' : '0.5'}
+                stroke="#F59E0B"
+                strokeWidth={activeWireframeSection === 'vip' ? '2.5' : '1.5'}
+                className="cursor-pointer transition-all hover:opacity-100"
+                onClick={() => setActiveWireframeSection('vip')}
+              />
+              <text x="250" y="82" fill="#FFFFFF" fontSize="10" fontWeight="bold" textAnchor="middle" pointerEvents="none">
+                VIP PIT ($275)
+              </text>
+
+              {/* Floor General Admission */}
+              <path
+                d="M 140 105 L 360 105 L 340 155 L 160 155 Z"
+                fill={activeWireframeSection === 'floor' ? '#026CDF' : '#1E3A8A'}
+                fillOpacity={activeWireframeSection === 'floor' ? '0.9' : '0.5'}
+                stroke="#38BDF8"
+                strokeWidth={activeWireframeSection === 'floor' ? '2.5' : '1.5'}
+                className="cursor-pointer transition-all hover:opacity-100"
+                onClick={() => setActiveWireframeSection('floor')}
+              />
+              <text x="250" y="135" fill="#FFFFFF" fontSize="11" fontWeight="bold" textAnchor="middle" pointerEvents="none">
+                FLOOR GA ($180)
+              </text>
+
+              {/* Lower Tier 100s Bowl */}
+              <path
+                d="M 100 165 C 180 205, 320 205, 400 165 L 380 205 C 310 235, 190 235, 120 205 Z"
+                fill={activeWireframeSection === 'lower' ? '#10B981' : '#064E3B'}
+                fillOpacity={activeWireframeSection === 'lower' ? '0.9' : '0.5'}
+                stroke="#10B981"
+                strokeWidth={activeWireframeSection === 'lower' ? '2.5' : '1.5'}
+                className="cursor-pointer transition-all hover:opacity-100"
+                onClick={() => setActiveWireframeSection('lower')}
+              />
+              <text x="250" y="200" fill="#FFFFFF" fontSize="10" fontWeight="bold" textAnchor="middle" pointerEvents="none">
+                LOWER TIER 100s ($125)
+              </text>
+
+              {/* Club Level Left & Right */}
+              <path
+                d="M 60 80 L 125 100 L 110 150 L 50 120 Z"
+                fill={activeWireframeSection === 'club' ? '#8B5CF6' : '#4C1D95'}
+                fillOpacity={activeWireframeSection === 'club' ? '0.9' : '0.5'}
+                stroke="#8B5CF6"
+                strokeWidth={activeWireframeSection === 'club' ? '2.5' : '1.5'}
+                className="cursor-pointer transition-all hover:opacity-100"
+                onClick={() => setActiveWireframeSection('club')}
+              />
+              <path
+                d="M 440 80 L 375 100 L 390 150 L 450 120 Z"
+                fill={activeWireframeSection === 'club' ? '#8B5CF6' : '#4C1D95'}
+                fillOpacity={activeWireframeSection === 'club' ? '0.9' : '0.5'}
+                stroke="#8B5CF6"
+                strokeWidth={activeWireframeSection === 'club' ? '2.5' : '1.5'}
+                className="cursor-pointer transition-all hover:opacity-100"
+                onClick={() => setActiveWireframeSection('club')}
+              />
+              <text x="85" y="120" fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" pointerEvents="none">
+                CLUB
+              </text>
+              <text x="415" y="120" fill="#FFFFFF" fontSize="8" fontWeight="bold" textAnchor="middle" pointerEvents="none">
+                CLUB
+              </text>
+
+              {/* Upper Tier 300s Perimeter */}
+              <path
+                d="M 70 215 C 160 270, 340 270, 430 215 L 450 240 C 350 300, 150 300, 50 240 Z"
+                fill={activeWireframeSection === 'upper' ? '#64748B' : '#1E293B'}
+                fillOpacity={activeWireframeSection === 'upper' ? '0.9' : '0.5'}
+                stroke="#64748B"
+                strokeWidth={activeWireframeSection === 'upper' ? '2.5' : '1.5'}
+                className="cursor-pointer transition-all hover:opacity-100"
+                onClick={() => setActiveWireframeSection('upper')}
+              />
+              <text x="250" y="258" fill="#FFFFFF" fontSize="10" fontWeight="bold" textAnchor="middle" pointerEvents="none">
+                UPPER BALCONY 300s ($55)
+              </text>
+            </svg>
+          </div>
+
+          {/* Section Insight Card */}
+          <div className="lg:col-span-5 bg-slate-800/80 p-5 rounded-lg border border-slate-700 space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs uppercase tracking-widest text-slate-400 font-bold">
+                Selected Section
+              </span>
+              <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${activeSectionInfo.statusClass}`}>
+                {activeSectionInfo.status}
+              </span>
+            </div>
+
+            <div>
+              <h4 className="text-xl font-black text-white">{activeSectionInfo.name}</h4>
+              <p className="text-xs text-slate-300 mt-1 flex items-center gap-1.5">
+                <Eye className="w-3.5 h-3.5 text-[#026CDF]" /> {activeSectionInfo.angle}
+              </p>
+            </div>
+
+            <div className="p-3 bg-slate-900 rounded-md border border-slate-700/60 flex items-center justify-between">
+              <div>
+                <span className="text-[11px] text-slate-400 block font-medium">Starting From</span>
+                <span className="text-xl font-black text-amber-300">{activeSectionInfo.price}</span>
+              </div>
+              <div className="text-right">
+                <span className="text-[11px] text-slate-400 block font-medium">Delivery</span>
+                <span className="text-xs font-bold text-white">Instant Mobile Transfer</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 pt-1">
+              {wireframeSections.map((sec) => (
+                <button
+                  key={sec.id}
+                  type="button"
+                  onClick={() => setActiveWireframeSection(sec.id)}
+                  className={`px-2.5 py-1.5 rounded text-xs font-bold transition-all cursor-pointer ${
+                    activeWireframeSection === sec.id
+                      ? 'bg-[#026CDF] text-white shadow-md'
+                      : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-700'
+                  }`}
+                >
+                  {sec.id.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="flex flex-col lg:flex-row gap-8 items-start">
         {/* Left: Filter Sidebar */}
         <aside className="w-full lg:w-72 bg-white rounded-lg border border-[#ebebeb] p-5 shadow-tm-level-1 shrink-0">
@@ -81,6 +279,33 @@ export const DiscoveryLayout: React.FC<DiscoveryLayoutProps> = ({
                     />
                     <span className={isChecked ? 'font-semibold text-[#024ddf]' : ''}>{cat}</span>
                   </label>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Filter Group: Seat Types */}
+          <div className="py-4 border-b border-[#ebebeb]">
+            <h4 className="type-etna font-bold text-[#121212] mb-3 uppercase tracking-wider">
+              Seat Categories
+            </h4>
+            <div className="space-y-2">
+              {seatTypes.map((type) => {
+                const isSelected = selectedSeatType === type.id;
+                return (
+                  <button
+                    key={type.id}
+                    type="button"
+                    onClick={() => setSelectedSeatType(type.id)}
+                    className={`w-full text-left px-3 py-1.5 rounded-md text-xs font-semibold transition-all cursor-pointer flex items-center justify-between ${
+                      isSelected
+                        ? 'bg-[#026CDF] text-white shadow-xs'
+                        : 'text-[#646464] hover:bg-[#f6f6f6] hover:text-[#121212]'
+                    }`}
+                  >
+                    <span>{type.label}</span>
+                    {isSelected && <Check className="w-3.5 h-3.5" />}
+                  </button>
                 );
               })}
             </div>
